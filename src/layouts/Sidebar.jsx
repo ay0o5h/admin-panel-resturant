@@ -1,47 +1,50 @@
+import { useTranslations } from 'next-intl';
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Button, Nav, NavItem } from "reactstrap";
 
 
-const navigation = [
-  {
-    title: "Dashboard",
-    href: "/",
-    icon: "bi bi-speedometer2",
-  },
-  {
-    title: "Add Resturant",
-    href: "/ui/alerts",
-    icon: "bi bi-bell",
-  },
-    {
-    title: "Requests",
-    href: "/ui/badges",
-    icon: "bi bi-patch-check",
-  },
-  {
-    title: "Mange Resturants",
-    href: "/ui/badges",
-    icon: "bi bi-patch-check",
-  },
-  {
-    title: "My Resturants",
-    href: "/ui/buttons",
-    icon: "bi bi-hdd-stack",
-  },
-
-];
 
 const Sidebar = ({ showMobilemenu }) => {
   let curl = useRouter();
   const location = curl.pathname;
+  const t = useTranslations('home');
 
+  const { locale, locales, defaultLocale, asPath } = useRouter();
+  const navigation = [
+    {
+      title: t('Dashboard'),
+      href: "/",
+      icon: "bi bi-speedometer2",
+    },
+    {
+      title: t("AddResturant"),
+      href: "/ui/alerts",
+      icon: "bi bi-bell",
+    },
+    {
+      title: t("Requests"),
+      href: "/ui/badges",
+      icon: "bi bi-patch-check",
+    },
+    {
+      title: t("MangeResturants"),
+      href: "/ui/badges",
+      icon: "bi bi-patch-check",
+    },
+    {
+      title: t("MyResturants"),
+      href: "/ui/buttons",
+      icon: "bi bi-hdd-stack",
+    },
+
+  ];
   return (
-    <div className="p-3">
+    <div style={{ direction: `${locale === "ar" ? "rtl" : "ltr"}` }} className="p-3">
       <div className="d-flex align-items-center">
-        <Link href="/">   
-        <h3 className="logo-text">Admin Dashboard</h3>
-         </Link>
+        <Link href="/">
+          <h3 className="logo-text">{t("logo")}</h3>
+        </Link>
         <Button
           close
           size="sm"
@@ -74,3 +77,10 @@ const Sidebar = ({ showMobilemenu }) => {
 };
 
 export default Sidebar;
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      messages: (await import(`../../lang/${locale}.json`)).default
+    }
+  };
+}

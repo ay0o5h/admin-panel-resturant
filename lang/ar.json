@@ -1,5 +1,19 @@
  {
        "home":{
-        "homeTitle": "مرحبا"
+        "logo": "لوحة تحكم الادمن",
+         "Dashboard":"لوحة تحكم",
+        "AddResturant":"اضافة مطعم",
+        "Requests":"الطلبات",
+        "MangeResturants":"اداره المطاعم",
+        "MyResturants":"مطعمي",
+        "info":"معلومات",
+        "MyAccount":"حسابي",
+        "EditProfile":"تعديل البروفايل",
+        "inbox":"صندوق الوارد",
+        "logout":"تسجيل خروج",
+        "login": "تسجيل دخول",
+        "signup": "تسجيل ",
+         "haveAccount": "لاتمتلك حساب ",
+        "alreadyExist": "هل لديك حساب"
        }
     }

@@ -1,4 +1,7 @@
+
+import { useTranslations } from 'next-intl';
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
 import {
   Button, Collapse, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar, NavbarBrand
@@ -6,6 +9,9 @@ import {
 import user1 from "../assets/images/users/avatar.svg";
 
 const Header = ({ showMobmenu }) => {
+
+  const t = useTranslations('home');
+  const { locale, locales, defaultLocale, asPath } = useRouter();
   const [isOpen, setIsOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
 
@@ -15,10 +21,12 @@ const Header = ({ showMobmenu }) => {
   };
 
   return (
-    <Navbar color="primary" dark expand="md">
+
+
+    <Navbar style={{ direction: `${locale === "ar" ? "rtl" : "ltr"}` }} color="primary" dark expand="md" >
       <div className="d-flex align-items-center">
         <NavbarBrand href="/" className="d-lg-none">
-          <h1 className="logo-text">Admin Dashboard</h1>
+          <h1 className="logo-text">{t('logo')}</h1>
         </NavbarBrand>
         <Button color="primary" className="d-lg-none" onClick={showMobmenu}>
           <i className="bi bi-list"></i>
@@ -56,17 +64,25 @@ const Header = ({ showMobmenu }) => {
             </div>
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem header>Info</DropdownItem>
-            <DropdownItem>My Account</DropdownItem>
-            <DropdownItem>Edit Profile</DropdownItem>
+            <DropdownItem header>{t('info')}</DropdownItem>
+            <DropdownItem>{t("MyAccount")}</DropdownItem>
+            <DropdownItem>{t('EditProfile')}</DropdownItem>
             <DropdownItem divider />
-            <DropdownItem>Inbox</DropdownItem>
-            <DropdownItem>Logout</DropdownItem>
+            <DropdownItem>{t('inbox')}</DropdownItem>
+            <DropdownItem>{t('logout')}</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </Collapse>
-    </Navbar>
+    </Navbar >
+
   );
 };
 
 export default Header;
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      messages: (await import(`../../lang/${locale}.json`)).default
+    }
+  };
+}

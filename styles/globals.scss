@@ -14,3 +14,75 @@ a {
 @import "~bootstrap-icons/font/bootstrap-icons.scss";
 @import "./layout/sidebar";
 @import "./layout/container";
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  max-width: 1200px;
+}
+.login {
+  @extend .container;
+  height: 100vh;
+  .left {
+    flex: 50%;
+ 
+     
+    h1 {
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 70px;
+      color: #281766;
+    }
+    .form {
+     
+      .input {
+           width:300px;
+        border-radius: 20px;
+        padding: 8px 10px;
+        outline: 0;
+      }
+      input,
+      .password {
+           width:300px;
+        border-radius: 20px;
+        padding: 4px 10px;
+        outline: 0;
+      }
+      button {
+        border-radius: 20px;
+        background-color: $primary;
+        border: 0;
+        outline: 0;
+        height: 50px;
+        width:   70px;
+        &:hover {
+          box-shadow: 0 0.5em 0.5em -0.4em #f59e52;
+          transform: translateY(-0.25em);
+        }
+      }
+    }
+    p {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+  .right {
+    flex: 50%;
+  }
+}
+// responsive login
+@media screen and (max-width: 500px) {
+  .login {
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    .form {
+      padding-right: 0;
+    }
+    .left,
+    .right {
+      padding: 3%;
+      text-align: center;
+    }
+  }
+}

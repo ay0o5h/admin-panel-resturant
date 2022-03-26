@@ -1,5 +1,19 @@
  {
        "home":{
-        "homeTitle": "hello"
+        "logo": "Admin Dashboard",
+        "Dashboard":"Dashboard",
+        "AddResturant":"Add Resturant",
+        "Requests":"Requests",
+        "MangeResturants":"Mange Resturants",
+        "MyResturants":"My Resturants",
+        "info":"Info",
+        "MyAccount":"My Account",
+        "EditProfile":"Edit Profile",
+        "inbox":"Inbox",
+        "logout":"Logout",
+         "login": "Login",
+        "signup": "Sign Up",
+         "haveAccount": "you don't have an account",
+        "alreadyExist": "already have an account"
        }
     }
