@@ -44,27 +44,27 @@ export const ApiRegister = (info, callback) => {
     })
     .catch((error) => console.log("error", error));
 };
-export const makeReservation = async (info, callback) => {
-  
-    const token = await Cookies.get("token");
-  console.log(info);
-  var myHeaders = new Headers();
-   myHeaders.append("token", token);
-myHeaders.append("Content-Type", "application/json");
- var raw = JSON.stringify(info);
-var requestOptions = {
-  method: 'POST',
-  headers: myHeaders,
-  body: raw,
-  redirect: 'follow'
-};
+export const ApiOtp = async (info, callback) => {
+  const token = await Cookies.get("registerToken");
 
-fetch(`${URL}/resturant-add`, requestOptions)
-  .then(response => response.json())
-  .then((result) => {
+  var myHeaders = new Headers();
+  myHeaders.append("token", token);
+  myHeaders.append("Content-Type", "application/json");
+
+  var raw = JSON.stringify(info);
+
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  fetch(`${URL}/otp`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
       if (result.status) return callback(result, null);
       callback(null, result.errMsg);
     })
-  .catch(error => console.log('error', error));
-
-}
+    .catch((error) => console.log("error", error));
+};

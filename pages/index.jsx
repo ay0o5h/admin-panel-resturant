@@ -1,16 +1,18 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import RouteProtect from "../HOC/RouteProtect";
 
 
 export default function Home() {
   return (
-    <div className="home">
-      <Head>
-        <title>home</title>
-       
-      </Head>
-      teeest
-      </div>
+    <RouteProtect>
+      <div className="home">
+        <Head>
+          <title>home</title>
 
-    
+        </Head>
+        teeest
+      </div>
+    </RouteProtect>
+
   )
 }

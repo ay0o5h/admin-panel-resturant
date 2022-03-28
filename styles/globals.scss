@@ -24,8 +24,7 @@ a {
 .login {
   @extend .container;
   height: 100vh;
-  .left {
-    flex: 50%;
+ 
  
      
     h1 {
@@ -65,10 +64,7 @@ a {
     p {
       color: rgba(0, 0, 0, 0.5);
     }
-  }
-  .right {
-    flex: 50%;
-  }
+ 
 }
 // responsive login
 @media screen and (max-width: 500px) {

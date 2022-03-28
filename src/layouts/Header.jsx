@@ -1,4 +1,5 @@
 
+import Cookies from "js-cookie";
 import { useTranslations } from 'next-intl';
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -6,8 +7,8 @@ import React from "react";
 import {
   Button, Collapse, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar, NavbarBrand
 } from "reactstrap";
+import RouteProtect from "../../HOC/RouteProtect";
 import user1 from "../assets/images/users/avatar.svg";
-
 const Header = ({ showMobmenu }) => {
 
   const t = useTranslations('home');
@@ -19,62 +20,67 @@ const Header = ({ showMobmenu }) => {
   const Handletoggle = () => {
     setIsOpen(!isOpen);
   };
+  const Router = useRouter();
+  const handleLogOut = async () => {
+    await Cookies.remove("token");
+    Router.reload();
+  }
 
   return (
 
+    <RouteProtect>
+      <Navbar style={{ direction: `${locale === "ar" ? "rtl" : "ltr"}` }} color="primary" dark expand="md" >
+        <div className="d-flex align-items-center">
+          <NavbarBrand href="/" className="d-lg-none">
+            <h1 className="logo-text">{t('logo')}</h1>
+          </NavbarBrand>
+          <Button color="primary" className="d-lg-none" onClick={showMobmenu}>
+            <i className="bi bi-list"></i>
+          </Button>
+        </div>
+        <div className="hstack gap-2">
+          <Button
 
-    <Navbar style={{ direction: `${locale === "ar" ? "rtl" : "ltr"}` }} color="primary" dark expand="md" >
-      <div className="d-flex align-items-center">
-        <NavbarBrand href="/" className="d-lg-none">
-          <h1 className="logo-text">{t('logo')}</h1>
-        </NavbarBrand>
-        <Button color="primary" className="d-lg-none" onClick={showMobmenu}>
-          <i className="bi bi-list"></i>
-        </Button>
-      </div>
-      <div className="hstack gap-2">
-        <Button
+            size="sm"
+            className="d-sm-block d-md-none"
+            onClick={Handletoggle}
+          >
+            {isOpen ? (
+              <i className="bi bi-x"></i>
+            ) : (
+              <i className="bi bi-three-dots-vertical"></i>
+            )}
+          </Button>
+        </div>
 
-          size="sm"
-          className="d-sm-block d-md-none"
-          onClick={Handletoggle}
-        >
-          {isOpen ? (
-            <i className="bi bi-x"></i>
-          ) : (
-            <i className="bi bi-three-dots-vertical"></i>
-          )}
-        </Button>
-      </div>
+        <Collapse navbar isOpen={isOpen}>
+          <Nav className="me-auto" navbar>
 
-      <Collapse navbar isOpen={isOpen}>
-        <Nav className="me-auto" navbar>
-
-        </Nav>
-        <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-          <DropdownToggle color="#F2F7F8">
-            <div style={{ lineHeight: "0px" }}>
-              <Image
-                src={user1}
-                alt="profile"
-                className="rounded-circle"
-                width="40"
-                height="40"
-              />
-            </div>
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem header>{t('info')}</DropdownItem>
-            <DropdownItem>{t("MyAccount")}</DropdownItem>
-            <DropdownItem>{t('EditProfile')}</DropdownItem>
-            <DropdownItem divider />
-            <DropdownItem>{t('inbox')}</DropdownItem>
-            <DropdownItem>{t('logout')}</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      </Collapse>
-    </Navbar >
-
+          </Nav>
+          <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+            <DropdownToggle color="#F2F7F8">
+              <div style={{ lineHeight: "0px" }}>
+                <Image
+                  src={user1}
+                  alt="profile"
+                  className="rounded-circle"
+                  width="40"
+                  height="40"
+                />
+              </div>
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem header>{t('info')}</DropdownItem>
+              <DropdownItem>{t("MyAccount")}</DropdownItem>
+              <DropdownItem>{t('EditProfile')}</DropdownItem>
+              <DropdownItem divider />
+              <DropdownItem>{t('inbox')}</DropdownItem>
+              <DropdownItem onClick={handleLogOut}>{t('logout')}</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </Collapse>
+      </Navbar >
+    </RouteProtect>
   );
 };
 

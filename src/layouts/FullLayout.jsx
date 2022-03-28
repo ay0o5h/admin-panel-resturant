@@ -16,7 +16,7 @@ const FullLayout = ({ children }) => {
   }, [])
   return (
     <main>
-      {locale == 'en' ?
+      {locale === 'en' ?
         <div className="pageWrapper d-md-block d-lg-flex">
 
           {/******** Sidebar **********/}
@@ -31,7 +31,7 @@ const FullLayout = ({ children }) => {
 
           <div className="contentArea">
             {/********header**********/}
-            {token && <Header showMobmenu={() => showMobilemenu()} />}
+            <Header showMobmenu={() => showMobilemenu()} />
 
             {/********Middle Content**********/}
             <Container className="p-4 wrapper" fluid>
@@ -53,13 +53,14 @@ const FullLayout = ({ children }) => {
             </Container>
           </div>
           {/******** Sidebar **********/}
-          <aside
+          {token && <aside
             className={`sidebarArea shadow bg-white ${!open ? "" : "showSidebar"
               }`}
           >
             <Sidebar showMobilemenu={() => showMobilemenu()} />
-          </aside>
-        </div>}
+          </aside>}
+        </div>
+      }
     </main>
   );
 };

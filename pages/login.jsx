@@ -33,6 +33,7 @@ const Login = () => {
                 <title>{t("login")}</title>
             </Head>
             <div className="login" style={{ flexDirection: `${locale === "en" ? "row" : "row-reverse"}`, textAlign: `${locale === "en" ? "left" : "right"}` }}>
+                <div></div>
                 <div className="left" >
                     <center>   <h1>{t("login")}</h1></center>
 
@@ -84,10 +85,10 @@ const Login = () => {
                         </Form.Item>
                     </Form>
                     <p>
-                        {t("haveAccount")} ? <Link style={{ color: "blue" }} href="/signup">{t("signup")}</Link>
+                        {t("haveAccount")} ? <Link style={{ color: "blue" }} href="/register">{t("signup")}</Link>
                     </p>
                 </div>
-
+                <div></div>
             </div>
         </>
     );
