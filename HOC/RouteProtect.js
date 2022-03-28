@@ -19,3 +19,10 @@ const RouteProtect = ({ children }) => {
 };
 
 export default RouteProtect;
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            messages: (await import(`../lang/${locale}.json`)).default
+        }
+    };
+}

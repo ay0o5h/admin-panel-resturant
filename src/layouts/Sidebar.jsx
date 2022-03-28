@@ -20,13 +20,13 @@ const Sidebar = ({ showMobilemenu }) => {
     },
     {
       title: t("AddResturant"),
-      href: "/ui/alerts",
+      href: "/sidebar/add-resturant",
       icon: "bi bi-bell",
     },
     {
       title: t("Requests"),
       href: "/ui/badges",
-      icon: "bi bi-patch-check",
+      icon: "bi bi-bell",
     },
     {
       title: t("MangeResturants"),
