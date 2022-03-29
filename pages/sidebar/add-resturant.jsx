@@ -1,9 +1,10 @@
-import { Button, Form, Input, message, Steps, TimePicker } from 'antd';
+import { InboxOutlined } from "@ant-design/icons";
+import { Button, Form, Input, message, Steps, TimePicker, Upload } from 'antd';
 import moment from 'moment';
 import React, { useState } from "react";
 import RouteProtect from "../../HOC/RouteProtect";
-
-
+const { Dragger } = Upload;
+const inputStyle = { borderRadius: "5px", padding: "10px", width: "100%" };
 const { Step } = Steps;
 const steps = [
     {
@@ -18,6 +19,7 @@ const steps = [
 ];
 const AddResturant = () => {
     const [current, setCurrent] = useState(0);
+    const [image, setAddImg] = useState("");
 
     const onFinish = (values) => {
         console.log('Success:', values);
@@ -34,6 +36,11 @@ const AddResturant = () => {
     const onChange = (time, timeString) => {
         console.log(time, timeString);
     }
+    const handleImageUpload = ({ fileList }) => {
+        if (fileList[0]) {
+            setAddImg(fileList[0].originFileObj);
+        }
+    };
     return (
         <RouteProtect>
             <div className="add-resturant">
@@ -55,34 +62,64 @@ const AddResturant = () => {
                                 name="name"
                                 rules={[{ required: true, message: 'Please enter resturant name!' }]}
                             >
-                                <Input />
+                                <Input style={inputStyle} />
                             </Form.Item>
                             <p>number of Table</p>
                             <Form.Item
                                 name="numOfTable"
                                 rules={[{ required: true, message: 'Please enter number of Table!' }]}
                             >
-                                <Input />
+                                <Input style={inputStyle} />
                             </Form.Item>
                             <p>open Time</p>
                             <Form.Item
                                 name="openDate"
                                 rules={[{ required: true, message: 'Please enter open Time!' }]}
                             >
-                                <TimePicker onChange={onChange} defaultOpenValue={moment('00:00', 'HH:mm')} />
+                                <TimePicker style={inputStyle} onChange={onChange} defaultOpenValue={moment('00:00', 'HH:mm')} />
                             </Form.Item>
                             <p>close Time</p>
                             <Form.Item
                                 name="closeDate"
                                 rules={[{ required: true, message: 'Please enter close Time!' }]}
                             >
-                                <TimePicker onChange={onChange} defaultOpenValue={moment('00:00', 'HH:mm')} />
+                                <TimePicker style={inputStyle} onChange={onChange} defaultOpenValue={moment('00:00', 'HH:mm')} />
+                            </Form.Item>
+                            <p>Resturant Image</p>
+                            <Form.Item
+                                name="bgImage"
+                                rules={[{ required: true, message: 'Please upload resturant image' }]}
+                            >
+                                <Dragger onChange={handleImageUpload}>
+                                    <p className="ant-upload-drag-icon">
+                                        <InboxOutlined />
+                                    </p>
+                                    <p className="ant-upload-text">
+                                        Click or drag file to this area to upload
+                                    </p>
+
+                                </Dragger>
+                            </Form.Item>
+                            <p>Floor Map</p>
+                            <Form.Item
+                                name="floorMap"
+                                rules={[{ required: true, message: 'Please upload floor Map' }]}
+                            >
+                                <Dragger onChange={handleImageUpload}>
+                                    <p className="ant-upload-drag-icon">
+                                        <InboxOutlined />
+                                    </p>
+                                    <p className="ant-upload-text">
+                                        Click or drag file to this area to upload
+                                    </p>
+
+                                </Dragger>
                             </Form.Item>
 
 
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" block>
-                                    Submit
+                                <Button style={{ borderRadius: "10px", fontWeight: 900, fontSize: "20px", paddingBottom: "20px" }} type="primary" htmlType="submit" block>
+                                    next
                                 </Button>
                             </Form.Item>
                         </Form>

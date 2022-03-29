@@ -34,28 +34,17 @@ a {
       line-height: 70px;
       color: #281766;
     }
+   
     .form {
-     
-      input {
-           width:300px;
-        border-radius: 20px;
-        padding: 8px 10px;
-        outline: 0;
-      }
-      input,
-      .password {
-           width:300px;
-        border-radius: 20px;
-        padding: 4px 10px;
-        outline: 0;
-      }
+
       button {
-        border-radius: 20px;
+        border-radius: 10px;
         background-color: $primary;
         border: 0;
         outline: 0;
         height: 50px;
         width:   70px;
+        font-size:2px;
         &:hover {
           box-shadow: 0 0.5em 0.5em -0.4em #f59e52;
           transform: translateY(-0.25em);
