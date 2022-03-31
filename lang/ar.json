@@ -14,6 +14,24 @@
         "login": "تسجيل دخول",
         "signup": "تسجيل ",
          "haveAccount": "لاتمتلك حساب ",
-        "alreadyExist": "هل لديك حساب"
+        "alreadyExist": "هل لديك حساب",
+        "headerAddRest":"ادخل معلومات المطعم",
+        "addResturant":"اضافة مطعم",
+        "addResturantName":"الاسم",
+        "addResturantNumberofTable":"عدد الطاولات",
+        "addResturantOpenTime":"وقت الافتتاح",
+        "addResturantCloseTime":"وقت الاغلاق",
+        "addResturantResturantImage":"صورة المطعم",
+        "addResturantFloorMap":"خريطة الجلوس",
+        "addResturantNameError":"من فضلك ادخل اسم المطعم",
+        "addResturantNumberofTableErorr":"من فضلك ادخل عدد الطاولات",
+        "addResturantOpenTimeEroor":"من فضلك ادخل وقت الافتتاح",
+        "addResturantCloseTimeErorr":"من فضلك ادخل وقت الاغلاق",
+        "addResturantResturantImageErorr":"من فضلك قم بتحميل صورة مطعم",
+        "addResturantFloorMapErorr":"من فضلك قم بتحميل خريطة الارض",
+        "dragNote":"اضغط او قم بسحب الملف الى منطقة التحميل",
+        "addResturantSend":"ارسال",
+        "addTables":"اضافة الطاولات"
+
        }
     }

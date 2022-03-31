@@ -14,6 +14,27 @@
          "login": "Login",
         "signup": "Sign Up",
          "haveAccount": "you don't have an account",
-        "alreadyExist": "already have an account"
+        "alreadyExist": "already have an account",
+        "addResturant":"Add Resturant",
+        "headerAddRest":"Enter Resturant Information",
+        "addResturantName":"Name",
+        "addResturantNumberofTable":"Number of Table",
+        "addResturantOpenTime":"Open Time",
+        "addResturantCloseTime":"Close Time",
+        "addResturantResturantImage":"Resturant Image",
+        "addResturantFloorMap":"Floor Map",
+        "addResturantNameError":"Please enter resturant name",
+        "addResturantNumberofTableErorr":"Please enter number of Table!",
+        "addResturantOpenTimeEroor":"Please enter open Time!",
+        "addResturantCloseTimeErorr":"Please enter Close Time!",
+        "addResturantResturantImageErorr":"Please upload resturant image",
+        "addResturantFloorMapErorr":"Please upload floor Map",
+        "dragNote":"Click or drag file to this area to upload",
+        "addResturantSend":"Send",
+        "addTables":"Add Tables"
+
+
+
+
        }
     }

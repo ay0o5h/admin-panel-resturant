@@ -4,13 +4,10 @@ import { useRouter } from "next/router";
 import { Button, Nav, NavItem } from "reactstrap";
 import RouteProtect from "../../HOC/RouteProtect";
 
-
-
 const Sidebar = ({ showMobilemenu }) => {
   let curl = useRouter();
   const location = curl.pathname;
   const t = useTranslations('home');
-
   const { locale, locales, defaultLocale, asPath } = useRouter();
   const navigation = [
     {
@@ -21,7 +18,7 @@ const Sidebar = ({ showMobilemenu }) => {
     {
       title: t("AddResturant"),
       href: "/sidebar/add-resturant",
-      icon: "bi bi-bell",
+      icon: "bi bi-plus",
     },
     {
       title: t("Requests"),
@@ -31,14 +28,8 @@ const Sidebar = ({ showMobilemenu }) => {
     {
       title: t("MangeResturants"),
       href: "/ui/badges",
-      icon: "bi bi-patch-check",
-    },
-    {
-      title: t("MyResturants"),
-      href: "/ui/buttons",
       icon: "bi bi-hdd-stack",
     },
-
   ];
   return (
     <RouteProtect>

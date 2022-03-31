@@ -2,6 +2,9 @@ import { InboxOutlined } from "@ant-design/icons";
 import { Button, Form, Input, InputNumber, message, Steps, TimePicker, Upload } from 'antd';
 import interact from 'interactjs';
 import moment from 'moment';
+import { useTranslations } from 'next-intl';
+import Head from "next/head";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { ApiAddResturant, ApiAddTable } from '../../api';
 import RouteProtect from "../../HOC/RouteProtect";
@@ -18,6 +21,8 @@ const steps = [
     },
 ];
 const AddResturant = () => {
+    const t = useTranslations('home');
+    const { locale, locales, defaultLocale, asPath } = useRouter();
     const [current, setCurrent] = useState(0);
     const [imageBg, setAddImageBg] = useState("");
     const [imageFloorMap, setAddimageFloorMap] = useState("");
@@ -171,6 +176,7 @@ const AddResturant = () => {
     }
     return (
         <RouteProtect>
+            <Head>{t('addResturant')}</Head>
             <div className="add-resturant">
                 <Steps current={current} progressDot >
                     {steps.map(item => (
@@ -179,66 +185,66 @@ const AddResturant = () => {
                 </Steps>
                 {current === 0 && (
                     <>
-                        <center> <h3>Enter Resturant Information</h3></center>
+                        <center> <h3>{t('headerAddRest')}</h3></center>
                         <Form
                             name="basic"
                             onFinish={onFinish}
                             className="form"
                         >
-                            <p>name</p>
+                            <p style={{ textAlign: `${locale === "en" ? "left" : "right"}` }}>{t('addResturantName')}</p>
                             <Form.Item
                                 name="name"
-                                rules={[{ required: true, message: 'Please enter resturant name!' }]}
+                                rules={[{ required: true, message: t('addResturantNameError') }]}
                             >
                                 <Input style={inputStyle} />
                             </Form.Item>
-                            <p>number of Table</p>
+                            <p style={{ textAlign: `${locale === "en" ? "left" : "right"}` }}>{t('addResturantNumberofTable')}</p>
                             <Form.Item
                                 name="numOfTable"
-                                rules={[{ required: true, message: 'Please enter number of Table!' }]}
+                                rules={[{ required: true, message: t('addResturantNumberofTableErorr') }]}
                             >
                                 <InputNumber min={0} max={10} defaultValue={0} style={inputStyle} />
                             </Form.Item>
-                            <p>open Time</p>
+                            <p style={{ textAlign: `${locale === "en" ? "left" : "right"}` }}>{t('addResturantOpenTime')}</p>
                             <Form.Item
                                 name="openDate"
-                                rules={[{ required: true, message: 'Please enter open Time!' }]}
+                                rules={[{ required: true, message: t('addResturantOpenTimeEroor') }]}
                             >
                                 <TimePicker style={inputStyle} onChange={onChange} defaultOpenValue={moment('00:00', 'HH:mm')} />
                             </Form.Item>
-                            <p>close Time</p>
+                            <p style={{ textAlign: `${locale === "en" ? "left" : "right"}` }}>{t('addResturantCloseTime')}</p>
                             <Form.Item
                                 name="closeDate"
-                                rules={[{ required: true, message: 'Please enter close Time!' }]}
+                                rules={[{ required: true, message: t('addResturantCloseTimeErorr') }]}
                             >
                                 <TimePicker style={inputStyle} onChange={onChange} defaultOpenValue={moment('00:00', 'HH:mm')} />
                             </Form.Item>
-                            <p>Resturant Image</p>
+                            <p style={{ textAlign: `${locale === "en" ? "left" : "right"}` }}>{t('addResturantResturantImage')}</p>
                             <Form.Item
                                 name="bgImage"
-                                rules={[{ required: true, message: 'Please upload resturant image' }]}
+                                rules={[{ required: true, message: t('addResturantResturantImageErorr') }]}
                             >
                                 <Dragger onChange={handleImageUploadbg}>
                                     <p className="ant-upload-drag-icon">
                                         <InboxOutlined />
                                     </p>
                                     <p className="ant-upload-text">
-                                        Click or drag file to this area to upload
+                                        {t('dragNote')}
                                     </p>
 
                                 </Dragger>
                             </Form.Item>
-                            <p>Floor Map</p>
+                            <p style={{ textAlign: `${locale === "en" ? "left" : "right"}` }}>{t('addResturantFloorMap')}</p>
                             <Form.Item
                                 name="floorMap"
-                                rules={[{ required: true, message: 'Please upload floor Map' }]}
+                                rules={[{ required: true, message: t('addResturantFloorMapErorr') }]}
                             >
                                 <Dragger onChange={handleImageUploadfloorMap}>
                                     <p className="ant-upload-drag-icon">
                                         <InboxOutlined />
                                     </p>
                                     <p className="ant-upload-text">
-                                        Click or drag file to this area to upload
+                                        {t('dragNote')}
                                     </p>
 
                                 </Dragger>
@@ -247,7 +253,7 @@ const AddResturant = () => {
 
                             <Form.Item>
                                 <Button style={{ borderRadius: "10px", fontWeight: 900, fontSize: "20px", paddingBottom: "20px" }} type="primary" htmlType="submit" block>
-                                    ارسال
+                                    {t('addResturantSend')}
                                 </Button>
                             </Form.Item>
                         </Form>
@@ -255,7 +261,7 @@ const AddResturant = () => {
                 )}
                 {current === 1 && (
                     <>
-                        <center> <h3>Add Tables</h3></center>
+                        <center> <h3>{t('addTables')}</h3></center>
                         <div className="example-parent">
                             <div
                                 className="example-dropzone"
@@ -269,7 +275,7 @@ const AddResturant = () => {
                                     height: '400px',
                                 }}
                             >
-                                Floor Map
+                                {t('addResturantFloorMap')}
                             </div>
                             <div className="example-origin">
                                 {sumTables.map(c =>
