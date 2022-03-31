@@ -4,6 +4,9 @@ const nextConfig = {
   reactStrictMode: true,
 }
 module.exports = {
+   images: {
+    domains: ['i.ibb.co'], //your-external-link-hostname
+  },
 webpack: (config) => {
     config.experiments = config.experiments || {}
     config.experiments.topLevelAwait = true

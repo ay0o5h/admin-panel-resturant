@@ -1,9 +1,9 @@
 import { InboxOutlined } from "@ant-design/icons";
 import { Button, Form, Input, InputNumber, message, Steps, TimePicker, Upload } from 'antd';
+import interact from 'interactjs';
 import moment from 'moment';
-import Image from "next/image";
 import React, { useState } from "react";
-import { ApiAddResturant } from '../../api';
+import { ApiAddResturant, ApiAddTable } from '../../api';
 import RouteProtect from "../../HOC/RouteProtect";
 
 const { Dragger } = Upload;
@@ -21,7 +21,8 @@ const AddResturant = () => {
     const [current, setCurrent] = useState(0);
     const [imageBg, setAddImageBg] = useState("");
     const [imageFloorMap, setAddimageFloorMap] = useState("");
-    const [data, setData] = useState("")
+    const [datas, setDatas] = useState("");
+    const [sumTables, setSumTables] = useState([]);
 
 
     const onFinish = (values) => {
@@ -40,9 +41,14 @@ const AddResturant = () => {
                 console.log(`info: ${info}`);
                 if (error) return message.error("something went wrong");
                 message.success("Addes Successfuly");
-                let data = datab.rest
-                setData(data)
-                console.log(data)
+                let datas = datab.rest
+                setDatas(datas)
+                console.log(datas)
+                let sumTables = []
+                for (let i = datas.numOfTable; i > 0; i--) {
+                    sumTables.push(i)
+                }
+                setSumTables(sumTables)
                 next()
 
 
@@ -75,7 +81,7 @@ const AddResturant = () => {
 
             fetch(`https://api.imgbb.com/1/upload?key=fbb93b107bf8de21163ffa94e7a574d9`, requestOptions)
                 .then((response) => response.json())
-                .then(async (result) => {
+                .then((result) => {
                     const imageBg = result.data.url;
                     setAddImageBg(imageBg);
                 })
@@ -96,13 +102,73 @@ const AddResturant = () => {
 
             fetch(`https://api.imgbb.com/1/upload?key=fbb93b107bf8de21163ffa94e7a574d9`, requestOptions)
                 .then((response) => response.json())
-                .then(async (result) => {
+                .then((result) => {
                     const imageFloorMap = result.data.url;
                     setAddimageFloorMap(imageFloorMap);
                 })
                 .catch((e) => console.log(e));
         }
     };
+    const onDragStart = (event) => {
+        event.dataTransfer.setData('text/plain', event.target.id);
+
+        event.currentTarget
+            .style
+            .backgroundColor = 'brown';
+    }
+    const onDragOver = (event) => {
+        event.preventDefault();
+    }
+    const onDrop = (event) => {
+        const id = event
+            .dataTransfer
+            .getData('text');
+        const draggableElement = document.getElementById(id);
+        const dropzone = event.target;
+        dropzone.appendChild(draggableElement);
+        event
+            .dataTransfer
+            .clearData();
+        if (event.stopPropagation) {
+            event.stopPropagation();
+        }
+        else {
+            event.cancelBubble = true;
+        }
+    }
+    const handleFun = (t) => {
+        const position = { x: 0, y: 0 }
+
+        interact(t).draggable({
+            listeners: {
+                start(event) {
+                    console.log(event.type, event.target)
+                },
+                move(event) {
+                    position.x += event.dx
+                    position.y += event.dy
+
+                    event.target.style.transform =
+                        `translate(${position.x}px, ${position.y}px)`;
+
+                },
+
+            }
+
+        })
+
+    }
+    const handleHoverOff = (rest, c, e) => {
+        console.log(c)
+        console.log(`you have clicked X:${e.pageX} Y:${e.pageY}`);
+        const info = { x: e.pageX, y: e.pageY, rest: rest, tableNum: c };
+        ApiAddTable(info, (data, error) => {
+            console.log(`info: ${info}`);
+            if (error) return message.error("something went wrong");
+            message.success("Addes Successfuly");
+        })
+
+    }
     return (
         <RouteProtect>
             <div className="add-resturant">
@@ -131,7 +197,7 @@ const AddResturant = () => {
                                 name="numOfTable"
                                 rules={[{ required: true, message: 'Please enter number of Table!' }]}
                             >
-                                <InputNumber min={1} max={10} defaultValue={3} style={inputStyle} />
+                                <InputNumber min={0} max={10} defaultValue={0} style={inputStyle} />
                             </Form.Item>
                             <p>open Time</p>
                             <Form.Item
@@ -190,26 +256,32 @@ const AddResturant = () => {
                 {current === 1 && (
                     <>
                         <center> <h3>Add Tables</h3></center>
-                        <Image src={data.bgImage} width="100%" height="100%" />
+                        <div className="example-parent">
+                            <div
+                                className="example-dropzone"
+                                onDragOver={(event) => onDragOver(event)}
+                                onDrop={(event) => onDrop(event)}
+                                style={{
+                                    backgroundImage: `url(${datas.floorMap})`,
+                                    backgroundSize: "cover",
+                                    backgroundRepeat: "no-repeat",
+                                    width: '300px',
+                                    height: '400px',
+                                }}
+                            >
+                                Floor Map
+                            </div>
+                            <div className="example-origin">
+                                {sumTables.map(c =>
+                                    <div class={`draggable draggable-${c}`}
+                                        onMouseUp={(e) => handleHoverOff(datas.id, c, e)}
+                                        onClick={() => handleFun(`.draggable-${c}`)}> {c} </div>)}
+
+                            </div>
+                        </div>
                     </>)}
-
-                {/* {current === 0 && <p>test</p>} */}
-                <div className="steps-action">
-
-                    {current === steps.length - 1 && (
-                        <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                            Done
-                        </Button>
-                    )}
-                    {current > 0 && (
-                        <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-                            Previous
-                        </Button>
-                    )}
-                </div>
             </div>
         </RouteProtect>
-
     )
 }
 export default AddResturant;
