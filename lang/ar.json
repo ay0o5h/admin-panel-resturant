@@ -31,7 +31,14 @@
         "addResturantFloorMapErorr":"من فضلك قم بتحميل خريطة الارض",
         "dragNote":"اضغط او قم بسحب الملف الى منطقة التحميل",
         "addResturantSend":"ارسال",
-        "addTables":"اضافة الطاولات"
+        "addTables":"اضافة الطاولات",
+         "ChangeImage":"تغيير الصورة",
+         "somethingwentwrong":"حدث خطأ ما",
+         "updatesuccessfuly":"تم التحديث بنجاح",
+         "deletesuccessfuly":"تم الحذف بنجاح",
+         "Actions":"انشطه"
+
+
 
        }
     }

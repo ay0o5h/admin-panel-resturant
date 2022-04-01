@@ -1,20 +1,17 @@
-import { DeleteOutlined, EditOutlined, UploadOutlined } from "@ant-design/icons";
+import { AlignCenterOutlined, DeleteOutlined, EditOutlined, UploadOutlined } from "@ant-design/icons";
 import {
-    Button, Image, message, Modal, Select, Table, TimePicker, Upload
+    Button, Image, message, Modal, Spin, Table, TimePicker, Upload
 } from "antd";
-import Cookies from "js-cookie";
 import moment from "moment";
 import { useTranslations } from 'next-intl';
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ApiFloormap, ApiResturants, ApiResturantsDelete } from "../../api";
+import { ApiFloormap, ApiResturants, ApiResturantsDelete, ApiResturantsEdit } from "../../api";
 import RouteProtect from "../../HOC/RouteProtect";
-
-const { Dragger } = Upload;
-const { Option } = Select;
 const inputStyle = { borderRadius: "5px", padding: "10px", width: "100%", border: "1px solid #ccc", outline: 0 };
 
 const MangeResturants = () => {
+    const Router = useRouter();
     const t = useTranslations('home');
     const [inputsEdit, setInputsEdit] = useState("");
     const { locale, locales, defaultLocale, asPath } = useRouter();
@@ -27,13 +24,21 @@ const MangeResturants = () => {
         setLoadin(true);
         ApiResturants((data, error) => {
             setLoadin(false);
-            if (error) return message.error(error);
+            if (error) return message.error(t("somethingwentwrong"));
             setData(data);
         });
     };
     useEffect(() => {
         getData();
     }, []);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setInputsEdit({
+            ...inputsEdit,
+            [name]: value,
+        });
+        console.log(inputsEdit)
+    };
 
     const columns = [
         {
@@ -49,132 +54,92 @@ const MangeResturants = () => {
             width: 50,
         },
         {
-            title: "Name",
+            title: t('addResturantName'),
             dataIndex: "name",
             render: (name) => <strong>{name}</strong>,
             width: 200,
         },
 
         {
-            title: "Number Of Table",
+            title: t('addResturantNumberofTable'),
             dataIndex: "numOfTable",
             render: (numOfTable) => <strong>{numOfTable}</strong>,
         },
         {
-            title: "open Date",
+            title: t('addResturantOpenTime'),
             dataIndex: "openDate",
             render: (date) => moment(date).format("hh:mm A"),
         },
         {
-            title: "close Date",
+            title: t('addResturantCloseTime'),
             dataIndex: "closeDate",
             render: (date) => moment(date).format("hh:mm A"),
         },
         {
-            title: "Actions",
+            title: t('Actions'),
             dataIndex: "id",
             render: (id) => <div className="actions">
+                <Button onClick={() => handleMange(id)} type="primary" warning><AlignCenterOutlined /></Button>
                 <Button onClick={() => showModal(id)} type="primary" info><EditOutlined /></Button>
                 <Button onClick={() => handleDelete(id)} type="primary" danger><DeleteOutlined /></Button>
             </div>,
         },
 
     ];
+    const handleMange = (id) => {
+        Router.push(`/mange/${id}`)
+    }
     const handleDelete = (id) => {
         ApiResturantsDelete(id, (data, error) => {
             console.log(data.rest)
-            if (error) return message.error("something went wrong");
-            message.success("delete successfuly");
+            if (error) return message.error(t("somethingwentwrong"));
+            message.success(t('deletesuccessfuly'));
             getData();
         })
     }
     const showModal = (id) => {
         ApiFloormap(id, (data, error) => {
             console.log(data.rest)
-            if (error) return message.error("something went wrong")
+            if (error) return message.error(t("somethingwentwrong"))
             let editRestData = data.rest;
             setEditRestData(editRestData)
         })
         setIsModalVisible(true);
     };
-
     const handleOk = (id) => {
-        console.log(id)
-        const info = {
-
-        }
-        ApiResturantsEdit(id, info, (data, error) => {
-            if (error) return message.error("something went wrong");
-            message.success("update successfuly");
+        ApiResturantsEdit(id, inputsEdit, (data, error) => {
+            if (error) return message.error(t("somethingwentwrong"));
+            message.success(t("updatesuccessfuly"));
             getData();
             setIsModalVisible(false);
 
-
         })
     };
-
     const handleCancel = () => {
         setIsModalVisible(false);
     };
-
-    const onFinish = (values) => {
-        setLoadin(true);
-        var formdata = new FormData();
-        formdata.append("image", image, image.name);
-
-        var requestOptions = {
-            method: "POST",
-            body: formdata,
-            redirect: "follow",
-        };
-
-        fetch(`https://api.imgbb.com/1/upload?key=`, requestOptions)
-            .then((response) => response.json())
-            .then(async (result) => {
-                const imageToUpload = result.data.url;
-
-                const token = await Cookies.get("adminToken");
-                var myHeaders = new Headers();
-                myHeaders.append("token", token);
-                myHeaders.append("Content-Type", "application/json");
-
-                var raw = JSON.stringify({
-                    ...values,
-                    image: imageToUpload,
-                });
-
-                var requestOptions = {
-                    method: "POST",
-                    headers: myHeaders,
-                    body: raw,
-                    redirect: "follow",
-                };
-
-                fetch("https://prisma-shop.herokuapp.com/v1/product", requestOptions)
-                    .then((response) => response.text())
-                    .then((result) => {
-                        message.success("uploaded successfully");
-                        setLoadin(false);
-                        getData();
-                        handleCancel();
-                    })
-                    .catch((error) => console.log("error", error));
-            })
-            .catch((e) => console.log(e));
-    };
-
-    const onFinishFailed = (errorInfo) => {
-        console.log("Failed:", errorInfo);
-    };
-
     const handleImageUpload = ({ fileList }) => {
         if (fileList[0]) {
-            setAddImg(fileList[0].originFileObj);
+            if (fileList[0]) {
+                var formdata = new FormData();
+                formdata.append("image", fileList[0].originFileObj);
+                var requestOptions = {
+                    method: "POST",
+                    body: formdata,
+                    redirect: "follow",
+                };
+                fetch(`https://api.imgbb.com/1/upload?key=fbb93b107bf8de21163ffa94e7a574d9`, requestOptions)
+                    .then((response) => response.json())
+                    .then((result) => {
+                        setInputsEdit({
+                            ...inputsEdit,
+                            bgImage: result.data.url
+                        })
+                    })
+                    .catch((e) => console.log(e));
+            }
         }
     };
-    const onChange = (time, timeString) => {
-        console.log(time, timeString);
-    }
     return (
         <RouteProtect>
             <div className="mangeRest">
@@ -184,24 +149,51 @@ const MangeResturants = () => {
                     onOk={() => handleOk(editRestData.id)}
                     onCancel={handleCancel}
                 >
-                    <Image style={{ marginBottom: '10px' }} src={editRestData.bgImage} />
-                    <center><Upload onChange={handleImageUpload}>
-                        <Button icon={<UploadOutlined />}>Change Image</Button>
-                    </Upload></center>
-                    <form name="basic">
-                        <p>Name </p>
-                        <input style={inputStyle} className="edit-inputs" type="text" name="name" value={editRestData.name} />
-                        <p>Number Of Table</p>
-                        <input style={inputStyle} className="edit-inputs" type="text" name="numOfTable" value={editRestData.numOfTable} />
-                        <p>open Date</p>
-                        <TimePicker style={inputStyle} onChange={onChange} defaultValue={moment(editRestData.openDate, 'HH:mm')} />
-                        <p>close Date</p>
-                        <TimePicker style={inputStyle} onChange={onChange} defaultValue={moment(editRestData.closeDate, 'HH:mm')} />
-                    </form>
+                    {!!editRestData ? (
+                        <>
+                            <Image style={{ marginBottom: '10px' }} src={editRestData.bgImage} />
+                            <center><Upload onChange={handleImageUpload}>
+                                <Button icon={<UploadOutlined />}>{t("ChangeImage")}</Button>
+                            </Upload></center>
+
+                            <form name="basic">
+                                <p>{t("addResturantName")}</p>
+                                <input style={inputStyle}
+                                    className="edit-inputs"
+                                    type="text" name="name"
+                                    value={inputsEdit.name ? inputsEdit.name : editRestData.name}
+                                    onChange={handleInputChange}
+                                />
+                                <p>{t("addResturantNumberofTable")}</p>
+                                <input style={inputStyle} className="edit-inputs"
+                                    type="text" name="numOfTable" onChange={handleInputChange}
+                                    value={inputsEdit.numOfTable ? inputsEdit.numOfTable : editRestData.numOfTable} />
+                                <p>{t("addResturantOpenTime")}</p>
+                                <TimePicker style={inputStyle}
+                                    defaultValue={moment(editRestData.openDate, 'HH:mm')}
+                                    onChange={(time, timeString) => {
+                                        console.log(time, timeString);
+                                        setInputsEdit({
+                                            ...inputsEdit,
+                                            openDate: time._d,
+                                        });
+                                    }}
+                                />
+                                <p>{t('addResturantCloseTime')}</p>
+                                <TimePicker style={inputStyle} defaultValue={moment(editRestData.closeDate, 'HH:mm')}
+                                    onChange={(time, timeString) => {
+                                        console.log(time, timeString);
+                                        setInputsEdit({
+                                            ...inputsEdit,
+                                            closeDate: time._d,
+                                        });
+                                    }}
+                                />
+                            </form></>) : <center><Spin /> </center>}
                 </Modal>
                 <div className="container">
                     <div className="header">
-                        <h1>Resturants</h1>
+                        <h1>{t("MyResturants")}</h1>
 
                     </div>
                     <Table
@@ -209,10 +201,11 @@ const MangeResturants = () => {
                         pagination={{
                             defaultPageSize: 6,
                         }}
+
                         size="small"
                         rowKey={(record) => record.id}
                         loading={loading}
-                        className="table"
+                        className={locale === "ar" ? "table rtl" : "table ltr"}
                         columns={columns}
                         dataSource={data}
                     />

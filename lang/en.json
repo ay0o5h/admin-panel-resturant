@@ -31,7 +31,12 @@
         "addResturantFloorMapErorr":"Please upload floor Map",
         "dragNote":"Click or drag file to this area to upload",
         "addResturantSend":"Send",
-        "addTables":"Add Tables"
+        "addTables":"Add Tables",
+        "ChangeImage":"Change Image",
+        "somethingwentwrong":"something went wrong",
+        "updatesuccessfuly":"update successfuly",
+        "deletesuccessfuly":"delete successfuly",
+        "Actions":"Actions"
 
 
 
