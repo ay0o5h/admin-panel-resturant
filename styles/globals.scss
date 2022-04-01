@@ -167,3 +167,36 @@ a {
   touch-action: none;
   user-select: none;
 }
+// mange Rest
+.mangeRest {
+  .ant-table{
+background-color: #fff;
+  }
+ .actions .ant-btn-primary {
+   border-radius: 5px;
+   margin: auto 5px;
+ }
+  .container{
+  flex-direction: column;
+
+  }
+  .header {
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.table {
+.table {
+  border: 1px solid #ccc;
+  background-color: white;
+  padding: 10px;
+}
+}
+.table-image {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+}

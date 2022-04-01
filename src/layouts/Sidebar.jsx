@@ -22,12 +22,12 @@ const Sidebar = ({ showMobilemenu }) => {
     },
     {
       title: t("Requests"),
-      href: "/ui/badges",
+      href: "/sidebar/requests",
       icon: "bi bi-bell",
     },
     {
       title: t("MangeResturants"),
-      href: "/ui/badges",
+      href: "/sidebar/mange-resturants",
       icon: "bi bi-hdd-stack",
     },
   ];
