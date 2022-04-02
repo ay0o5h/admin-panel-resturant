@@ -79,7 +79,7 @@ const MangeResturants = () => {
             title: t('Actions'),
             dataIndex: "id",
             render: (id) => <div className="actions">
-                <Button onClick={() => handleMange(id)} type="primary" warning><AlignCenterOutlined /></Button>
+                <Button onClick={() => handleMange(id)} type="primary" success><AlignCenterOutlined /></Button>
                 <Button onClick={() => showModal(id)} type="primary" info><EditOutlined /></Button>
                 <Button onClick={() => handleDelete(id)} type="primary" danger><DeleteOutlined /></Button>
             </div>,
@@ -87,7 +87,7 @@ const MangeResturants = () => {
 
     ];
     const handleMange = (id) => {
-        Router.push(`/mange/${id}`)
+        Router.push(`/sidebar/mange/${id}`)
     }
     const handleDelete = (id) => {
         ApiResturantsDelete(id, (data, error) => {

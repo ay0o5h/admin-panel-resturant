@@ -206,3 +206,22 @@ fetch(`${URL}/resturant-delete/${parseInt(info)}`, requestOptions)
   .catch(error => console.log('error', error));
   
 }
+export const updateResturantState = async (info, callback) => {
+  var myHeaders = new Headers();
+
+var requestOptions = {
+  method: 'PUT',
+  headers: myHeaders,
+  redirect: 'follow'
+};
+
+fetch(`${URL}/resturant/${parseInt(info)}`, requestOptions)
+  .then(response => response.json())
+  .then(result => {
+    if (result.status) return callback(result, null);
+      console.log(result.data);
+      callback(null, result.errMsg);
+      console.log(result)
+  })
+  .catch(error => console.log('error', error));
+}
