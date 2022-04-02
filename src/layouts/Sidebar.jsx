@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Button, Nav, NavItem } from "reactstrap";
+import { Badge, Button, Nav, NavItem } from "reactstrap";
 import RouteProtect from "../../HOC/RouteProtect";
 
 const Sidebar = ({ showMobilemenu }) => {
@@ -59,6 +59,7 @@ const Sidebar = ({ showMobilemenu }) => {
                   >
                     <i className={navi.icon} style={{ margin: "auto 10px" }}></i>
                     <span className="ms-3 d-inline-block">{navi.title}</span>
+                    {navi.title === t("Requests") && <Badge size="default" style={{ margin: "auto 10px", backgroundColor: "#f50" }} count={0}>{0}</Badge>}
                   </a>
                 </Link>
               </NavItem>
