@@ -36,7 +36,14 @@
          "somethingwentwrong":"حدث خطأ ما",
          "updatesuccessfuly":"تم التحديث بنجاح",
          "deletesuccessfuly":"تم الحذف بنجاح",
-         "Actions":"انشطه"
+         "Actions":"انشطه",
+          "User-name":"اسم المستخدم",
+        "Tablenumber":"رقم الطاولة",
+        "Booking-time":"وقت الحجز",
+        "NumberofPeople":"عدد الاشخاص",
+        "restu-name":"اسم المطعم",
+        "accept":"قبول",
+        "reject":"رفض"
 
 
 

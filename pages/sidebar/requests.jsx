@@ -5,7 +5,7 @@ import moment from "moment";
 import { useTranslations } from 'next-intl';
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ApiResturants } from "../../api";
+import { ApiResturants, changeState } from "../../api";
 import RouteProtect from "../../HOC/RouteProtect";
 const inputStyle = { borderRadius: "5px", padding: "10px", width: "100%", border: "1px solid #ccc", outline: 0 };
 
@@ -43,19 +43,30 @@ const Requests = () => {
 
         },
         {
-            title: "User name",
+            title: t('User-name'),
+            dataIndex: "User name",
+            render: (name) => <strong>{name}</strong>,
+            width: 200,
+        },
+        {
+            title: t('restu-name'),
             dataIndex: "User name",
             render: (name) => <strong>{name}</strong>,
             width: 200,
         },
 
         {
-            title: "Table number",
+            title: t("Tablenumber"),
             dataIndex: "Table number",
             render: (numOfTable) => <strong>{numOfTable}</strong>,
         },
         {
-            title: "Booking time",
+            title: t("NumberofPeople"),
+            dataIndex: "Table number",
+            render: (numOfTable) => <strong>{numOfTable}</strong>,
+        },
+        {
+            title: t("Booking-time"),
             dataIndex: "openDate",
             render: (date) => moment(date).format("hh:mm A"),
         },
@@ -63,20 +74,26 @@ const Requests = () => {
             title: t('Actions'),
             dataIndex: "id",
             render: (id) => <div className="actions">
-                <Button onClick={() => handleChange("accespt")} type="primary" info>accespt</Button>
-                <Button onClick={() => handleChange("regect")} type="primary" danger>regect</Button>
+                <Button onClick={() => handleChange("accept", id)} type="primary" info>{t("accept")}</Button>
+                <Button onClick={() => handleChange("reject", id)} type="primary" danger>{t("reject")}</Button>
             </div>,
         },
 
     ];
-
+    const handleChange = (status, id) => {
+        const info = { status: status, id: id };
+        changeState(info, (data, error) => {
+            if (error) return message.error(t("somethingwentwrong"));
+            message.success(t("updatesuccessfuly"));
+        })
+    }
     return (
         <RouteProtect>
             <div className="mangeRest">
 
                 <div className="container">
                     <div className="header">
-                        <h1>{t("MyResturants")}</h1>
+                        <h1>{t("Requests")}</h1>
 
                     </div>
                     <Table
@@ -84,7 +101,6 @@ const Requests = () => {
                         pagination={{
                             defaultPageSize: 6,
                         }}
-
                         size="small"
                         rowKey={(record) => record.id}
                         loading={loading}

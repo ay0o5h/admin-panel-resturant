@@ -36,9 +36,14 @@
         "somethingwentwrong":"something went wrong",
         "updatesuccessfuly":"update successfuly",
         "deletesuccessfuly":"delete successfuly",
-        "Actions":"Actions"
-
-
+        "Actions":"Actions",
+        "User-name":"User name",
+        "Tablenumber":"Table number",
+        "Booking-time":"Booking time",
+        "NumberofPeople":"Number of People",
+        "restu-name":"Resturant Name",
+        "accept":"accept",
+        "reject":"reject"
 
 
        }
