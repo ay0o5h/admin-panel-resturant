@@ -26,7 +26,7 @@ const Signup = () => {
         ApiOtp(info, (data, error) => {
             console.log(data);
             if (error) return alert(error);
-            Cookies.set("token", data.token);
+            Cookies.set("Admintoken", data.token);
             Router.push("/");
         });
     };

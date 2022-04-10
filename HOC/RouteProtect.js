@@ -9,7 +9,7 @@ const RouteProtect = ({ children }) => {
   }, []);
 
   const GetAndSet = async () => {
-    const token = await Cookies.get("token");
+    const token = await Cookies.get("Admintoken");
 
 
     if (token) setIsLoggedIn(true);

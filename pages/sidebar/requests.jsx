@@ -5,7 +5,7 @@ import moment from "moment";
 import { useTranslations } from 'next-intl';
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ApiResturants, changeState } from "../../api";
+import { ApiBookingList, changeState } from "../../api";
 import RouteProtect from "../../HOC/RouteProtect";
 const inputStyle = { borderRadius: "5px", padding: "10px", width: "100%", border: "1px solid #ccc", outline: 0 };
 
@@ -17,10 +17,11 @@ const Requests = () => {
     const [loading, setLoadin] = useState(false);
     const getData = () => {
         setLoadin(true);
-        ApiResturants((data, error) => {
+        ApiBookingList((data, error) => {
+            console.log(data)
             setLoadin(false);
             if (error) return message.error(t("somethingwentwrong"));
-            setData(data);
+            // setData(data);
         });
     };
     useEffect(() => {

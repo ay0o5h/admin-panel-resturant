@@ -12,7 +12,7 @@ const FullLayout = ({ children }) => {
     setOpen(!open);
   };
   useEffect(() => {
-    setToken(() => Cookies.get("token"));
+    setToken(() => Cookies.get("Admintoken"));
   }, [])
   return (
     <main>

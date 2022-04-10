@@ -22,7 +22,7 @@ const Header = ({ showMobmenu }) => {
   };
   const Router = useRouter();
   const handleLogOut = async () => {
-    await Cookies.remove("token");
+    await Cookies.remove("Admintoken");
     Router.reload();
   }
 

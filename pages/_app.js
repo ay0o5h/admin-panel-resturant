@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }) {
     getAndSet();
     }, []);
     const getAndSet = async () => {
-    const token = await Cookies.get("token");
+    const token = await Cookies.get("Admintoken");
 
     if (!token && window.location.pathname !== "/login") {
       if (
