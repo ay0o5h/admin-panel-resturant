@@ -4,7 +4,7 @@ import moment from "moment";
 import { useTranslations } from 'next-intl';
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ApiFloormap, makeItDone, updateResturantState } from '../../../api';
+import { ApiFloormap, ApiTableDelete, makeItDone, updateResturantState } from '../../../api';
 import RouteProtect from "../../../HOC/RouteProtect";
 const Mange = () => {
     const { locale, locales, defaultLocale, asPath } = useRouter();
@@ -15,12 +15,7 @@ const Mange = () => {
     const [restaurant, setRestaurant] = useState("");
     const [isopen, setIsOpen] = useState(false);
     const [tables, setTables] = useState("")
-
-    useEffect(() => {
-
-        const token = Cookies.get("Admintoken");
-        setToken(token);
-        console.log(token);
+    const getData = () => {
         ApiFloormap(id, (data1, error) => {
             if (error) return message.error(error);
             let data = data1.rest
@@ -39,13 +34,38 @@ const Mange = () => {
             setIsOpen(isopen);
             console.log(data);
         })
+
+    }
+    useEffect(() => {
+
+        const token = Cookies.get("Admintoken");
+        setToken(token);
+        console.log(token);
+        getData()
     }, [Router]);
-    const changeState = (idTble) => {
-        makeItDone()
-        console.log(idTble)
+    const changeState = (idTble, bookId) => {
+        const info = {
+            tableId: idTble,
+            bookId: bookId
+        }
+        makeItDone(info, (data, error) => {
+            if (error) return message.error(t("somethingWrong"));
+            message.success("okay");
+            getData();
+
+        })
+
     }
     const handleDelete = (idTble) => {
-        console.log(idTble)
+        ApiTableDelete(idTble, (data, error) => {
+            console.log(idTble)
+            if (error) return message.error(t("somethingwentwrong"));
+            message.success(t('deletesuccessfuly'));
+            getData();
+        })
+    }
+    const handleEdit = () => {
+        console.log("test")
     }
     return (
         <RouteProtect>
@@ -73,15 +93,15 @@ const Mange = () => {
                             ) : (
                                 tables?.map((t) => (
                                     <Popover
-                                        content={<div>
-                                            <Button type="primary" onClick={() => changeState(t.id)} info>Change State</Button>
+                                        content={<div style={{ display: "flex", flexDirection: "column" }}>
+                                            <Button style={{ margin: "10px" }} type="primary" onClick={t.isBooked ? changeState(t.id, t.book[0].id) : () => message.error("can'y change state")} info>Reserv End</Button>
                                             <b />
-                                            <Button type="primary" onClick={() => handleDelete(t.id)} danger>Delete table</Button>
+                                            <Button style={{ margin: "10px" }} type="primary" onClick={() => handleDelete(t.id)} danger>Delete table</Button>
                                         </div>}
                                         title={"table number " + t.tableNum}
                                     >
                                         <circle
-                                            onClick={() => handleEdit(t.id)}
+                                            onClick={t.isBooked ? handleEdit(t.id, t.book[0].id) : () => message.error("can'y change state")}
                                             className="circle"
                                             key={t.id}
                                             cx={t.x}

@@ -206,6 +206,28 @@ fetch(`${URL}/resturant-delete/${parseInt(info)}`, requestOptions)
   .catch(error => console.log('error', error));
   
 }
+export const ApiTableDelete = async (info, callback) => {
+   const token = await Cookies.get("Admintoken");
+  var myHeaders = new Headers();
+  myHeaders.append("token", token);
+  myHeaders.append("Content-Type", "application/json");
+ 
+
+var requestOptions = {
+  method: 'DELETE',
+  headers: myHeaders,
+  redirect: 'follow'
+};
+
+fetch(`${URL}/table-delete/${parseInt(info)}`, requestOptions)
+  .then(response => response.json())
+  .then((result) => {
+      if (result.status) return callback(result, null);
+      callback(null, result.errMsg);
+    })
+  .catch(error => console.log('error', error));
+  
+}
 export const updateResturantState = async (info, callback) => {
   var myHeaders = new Headers();
 
