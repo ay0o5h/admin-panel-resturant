@@ -17,11 +17,29 @@ const Requests = () => {
     const [loading, setLoadin] = useState(false);
     const getData = () => {
         setLoadin(true);
-        ApiBookingList((data, error) => {
-            console.log(data)
+        ApiBookingList((datas, error) => {
+            console.log(datas)
             setLoadin(false);
+
             if (error) return message.error(t("somethingwentwrong"));
-            // setData(data);
+            let data = [];
+            datas.map((c) => (
+                c.table.map(t => t.book.length > 0 &&
+                    t.book.map(b => b.status === null &&
+                        data.push({
+                            key: c.id,
+                            name: c.name,
+                            tableNum: t.tableNum,
+                            action: b.id,
+                            numOfPeople: t.book[0].numOfPeople,
+                            resTime: t.book[0].resTime,
+                            firstName: b.user.firstName,
+                            lastName: b.user.lastName,
+                        })
+                    ))
+            ))
+            console.log(data)
+            setData(data);
         });
     };
     useEffect(() => {
@@ -39,41 +57,41 @@ const Requests = () => {
     const columns = [
         {
             title: "NO.",
-            dataIndex: "id",
+            dataIndex: "key",
             width: 50,
 
         },
         {
             title: t('User-name'),
-            dataIndex: "User name",
+            dataIndex: "firstName",
             render: (name) => <strong>{name}</strong>,
             width: 200,
         },
         {
             title: t('restu-name'),
-            dataIndex: "User name",
+            dataIndex: "name",
             render: (name) => <strong>{name}</strong>,
             width: 200,
         },
 
         {
             title: t("Tablenumber"),
-            dataIndex: "Table number",
+            dataIndex: "tableNum",
             render: (numOfTable) => <strong>{numOfTable}</strong>,
         },
         {
             title: t("NumberofPeople"),
-            dataIndex: "Table number",
+            dataIndex: "numOfPeople",
             render: (numOfTable) => <strong>{numOfTable}</strong>,
         },
         {
             title: t("Booking-time"),
-            dataIndex: "openDate",
+            dataIndex: "resTime",
             render: (date) => moment(date).format("hh:mm A"),
         },
         {
             title: t('Actions'),
-            dataIndex: "id",
+            dataIndex: "action",
             render: (id) => <div className="actions">
                 <Button onClick={() => handleChange("accept", id)} type="primary" info>{t("accept")}</Button>
                 <Button onClick={() => handleChange("reject", id)} type="primary" danger>{t("reject")}</Button>
@@ -86,6 +104,7 @@ const Requests = () => {
         changeState(info, (data, error) => {
             if (error) return message.error(t("somethingwentwrong"));
             message.success(t("updatesuccessfuly"));
+            getData()
         })
     }
     return (
