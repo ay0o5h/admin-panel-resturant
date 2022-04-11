@@ -43,7 +43,10 @@
         "NumberofPeople":"عدد الاشخاص",
         "restu-name":"اسم المطعم",
         "accept":"قبول",
-        "reject":"رفض"
+        "reject":"رفض",
+        "open":"مفتوح الأن",
+        "close":"مغلق الأن"
+
 
 
 

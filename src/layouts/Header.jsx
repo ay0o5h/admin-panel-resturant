@@ -70,11 +70,11 @@ const Header = ({ showMobmenu }) => {
               </div>
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem header>{t('info')}</DropdownItem>
+              {/* <DropdownItem header>{t('info')}</DropdownItem>
               <DropdownItem>{t("MyAccount")}</DropdownItem>
               <DropdownItem>{t('EditProfile')}</DropdownItem>
               <DropdownItem divider />
-              <DropdownItem>{t('inbox')}</DropdownItem>
+              <DropdownItem>{t('inbox')}</DropdownItem> */}
               <DropdownItem onClick={handleLogOut}>{t('logout')}</DropdownItem>
             </DropdownMenu>
           </Dropdown>

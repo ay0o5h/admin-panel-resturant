@@ -43,7 +43,9 @@
         "NumberofPeople":"Number of People",
         "restu-name":"Resturant Name",
         "accept":"accept",
-        "reject":"reject"
+        "reject":"reject",
+           "open":"Open Now",
+        "close":"Close Now"
 
 
        }

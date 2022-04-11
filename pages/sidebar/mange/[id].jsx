@@ -71,9 +71,9 @@ const Mange = () => {
         <RouteProtect>
             {!!restaurant ?
                 <div className="mange">
-                    <Tag color={isopen ? "#87d068" : "#f50"}>{isopen ? "open now" : "close now"}</Tag>
+                    <Tag color={isopen ? "#87d068" : "#f50"}>{isopen ? t("open") : t("close")}</Tag>
                     <br />
-                    <span>{moment(restaurant.openDate).format("hh:mm A") - moment(restaurant.closeDate).format("hh:mm A")}</span>
+                    <span>{moment(restaurant.openDate).format(" HH:mm ")}- {moment(restaurant.closeDate).format(" HH:mm ")}</span>
                     <h3>{restaurant.name}</h3>
                     <svg version="1.1" baseProfile="full" width="500" height="500">
                         {!!restaurant ? (
